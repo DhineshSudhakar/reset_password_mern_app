@@ -1,0 +1,31 @@
+import express from "express"
+import dotenv from "dotenv"
+import { MongoClient } from "mongodb"
+import { userRoutes } from "./routes/userRoutes.js"
+
+const app = express()
+
+dotenv.config()
+
+const PORT = process.env.PORT
+const MONGO_URL = process.env.MONGO_URL
+
+async function connectToMongo(){
+    const client = new MongoClient(MONGO_URL)
+    await client.connect()
+    console.log("server connected to MongoDB")
+    return client
+}
+
+export const client = await connectToMongo()
+
+app.use(express.json())
+
+app.get("/", (req, res) => {
+    res.send("Welcome to password reset api 🎉")
+})
+
+app.use("/user", userRoutes)
+
+app.listen(PORT, () => console.log("server successfully running on port:", PORT))
+
