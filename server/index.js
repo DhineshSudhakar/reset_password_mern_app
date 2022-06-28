@@ -1,6 +1,8 @@
 import express from "express";
 import dotenv from "dotenv";
 import { MongoClient } from "mongodb";
+import cors from "cors";
+
 import { userRoutes } from "./routes/userRoutes.js";
 import { genMail } from "./mailer.js";
 
@@ -21,6 +23,7 @@ async function connectToMongo() {
 export const client = await connectToMongo();
 
 app.use(express.json());
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Welcome to password reset api 🎉");

@@ -13,6 +13,7 @@ import {
   userSignup,
 } from "./helper.js";
 import { genMail } from "../mailer.js";
+import { auth } from "../middlewares/authMiddleware.js";
 
 const router = express.Router();
 
@@ -40,13 +41,12 @@ router.post("/signup", async (req, res) => {
   }
 });
 
-router.post("/login", async (req, res) => {
+router.post("/login", auth, async (req, res) => {
   const { email, password } = req.body;
-  const token = req.header("auth");
   try {
     const user = await findUser(email);
     if (user) {
-      const isPasswordMatch = await compare(password, token);
+      const isPasswordMatch = await compare(password, user.hashPassword);
       if (isPasswordMatch) {
         res.send({ msg: "login successfully" });
       } else {

@@ -1,0 +1,12 @@
+.signup, .login, .forgot-password, .reset-password, .change-password{
+    width: 60%;
+    margin: 0 auto;
+    margin-top: 100px;
+    border-radius: 8px;
+    padding: 20px 50px;
+    background-color: white;
+}
+
+.heading{
+    text-align: center;
+}
